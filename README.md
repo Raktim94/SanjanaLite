@@ -1,88 +1,247 @@
-
 # ⚪ SanjanaLite: Studio Edition
 
-**SanjanaLite** is an ultra-lightweight, high-fidelity micro-CMS built for professionals who demand minimalist aesthetics (Cupertino-inspired) and zero-dependency deployments. It operates on a "No-API" architecture, utilizing browser-native persistence for standalone instances.
+**SanjanaLite** is an ultra-lightweight, high-fidelity micro‑CMS built for professionals who value minimalist (Cupertino‑inspired) design, zero backend dependencies, and full control over content. It is intentionally backend‑less and database‑free, relying on browser‑native storage and static deployment.
+
+This project is designed to run **anywhere** — bare metal Linux, LXC containers, Docker, CasaOS, or simple Nginx hosting.
+
+---
+
+## ✨ Key Principles
+
+* Minimalist, distraction‑free CMS
+* No database, no API, no server logic
+* Offline‑capable after deployment
+* Human‑written content first
+* Extremely low attack surface
 
 ---
 
 ## 🛠 Technology Stack
 
-- **Frontend:** React 19 (ESM) + Tailwind CSS.
-- **AI Engine:** Google Gemini 2.0 (Optional SEO/Content features).
-- **Architecture:** Hash-based SPA with `sessionStorage` gatekeeping.
-- **Persistence:** JSON-Schema based `localStorage` synchronization.
-- **Deployment:** Nginx Alpine (Multi-stage Docker support).
+* **Frontend:** React 19 (ESM)
+* **Styling:** Tailwind CSS
+* **Architecture:** Hash‑based SPA
+* **Admin Security:** `sessionStorage` gate
+* **Persistence:** JSON‑schema based `localStorage`
+* **Web Server:** Nginx
+* **Container Support:** Docker & CasaOS compatible
+
+---
+
+## 📦 Repository
+
+```
+https://github.com/Raktim94/sanjanalt.git
+```
 
 ---
 
 ## 🚀 Installation & Deployment
 
-### 1. Linux (Bare Metal / Ubuntu / Debian)
-To run this on a standard Linux server, you need `Node.js` and `Nginx`.
+Below are **all possible installation methods**, including `sudo`‑based setups.
+
+---
+
+## 1️⃣ Linux (Ubuntu / Debian / Bare Metal)
+
+### 🔧 System Preparation
 
 ```bash
-# Update system
 sudo apt update && sudo apt upgrade -y
+sudo apt install -y curl git nginx software-properties-common
+```
 
-# Install Nginx
-sudo apt install nginx -y
+---
 
-# Build the application (Local Machine or Server)
-npm install
-npm run build
+### 🔧 Install Node.js (v20 LTS – Recommended)
 
-# Copy build files to Nginx web root
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+```
+
+Verify:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
+### 📥 Clone Repository
+
+```bash
+git clone https://github.com/Raktim94/sanjanalt.git
+cd sanjanalt
+```
+
+---
+
+### 📦 Install Project Dependencies
+
+```bash
+sudo npm install
+```
+
+*(sudo is safe here for global permissions on minimal servers)*
+
+---
+
+### 🏗 Build Production Files
+
+```bash
+sudo npm run build
+```
+
+This generates the `dist/` directory.
+
+---
+
+### 🌐 Deploy to Nginx
+
+```bash
+sudo rm -rf /var/www/html/*
 sudo cp -r dist/* /var/www/html/
+```
 
-# Configure Nginx for SPA routing
+---
+
+### ⚙️ Configure Nginx for SPA
+
+Edit default config:
+
+```bash
 sudo nano /etc/nginx/sites-available/default
 ```
-*In the Nginx config, ensure `try_files $uri $uri/ /index.html;` is present inside the `location /` block.*
 
-### 2. LXC Container (Proxmox / Ubuntu)
-For a clean LXC environment, follow these steps inside the container:
+Inside `server {}` → `location /` add:
+
+```
+try_files $uri $uri/ /index.html;
+```
+
+Restart Nginx:
 
 ```bash
-# Step 1: Install dependencies
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs git nginx
-
-# Step 2: Clone and Setup
-git clone <your-repo-url> /opt/sanjanalite
-cd /opt/sanjanalite
-npm install
-npm run build
-
-# Step 3: Link to Nginx
-sudo rm /var/www/html/index.nginx-debian.html
-sudo ln -s /opt/sanjanalite/dist/* /var/www/html/
-
-# Step 4: Restart Service
 sudo systemctl restart nginx
 ```
 
-### 3. Docker (The Easiest Way)
+✅ SanjanaLite is now live.
+
+---
+
+## 2️⃣ LXC Container (Proxmox / Ubuntu LXC)
+
 ```bash
-docker-compose up -d --build
+sudo apt update
+sudo apt install -y curl git nginx
+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+git clone https://github.com/Raktim94/sanjanalt.git /opt/sanjanalite
+cd /opt/sanjanalite
+
+sudo npm install
+sudo npm run build
+
+sudo rm -f /var/www/html/index.nginx-debian.html
+sudo ln -s /opt/sanjanalite/dist/* /var/www/html/
+
+sudo systemctl restart nginx
 ```
 
 ---
 
-## 🛡 Security Protocol
+## 3️⃣ Docker (Recommended)
 
-- **Passcode Access:** The `/admin` portal is protected by a local cryptographic hash established during the **Setup Wizard**.
-- **Data Privacy:** 100% of your content remains in the browser/container. No external database calls are made unless you utilize the Gemini AI SEO features.
-- **CSRF Protection:** Native hash-routing prevents traditional cross-site request forgery.
+### 🔧 Requirements
+
+* Docker
+* Docker Compose
+
+Install Docker:
+
+```bash
+sudo apt install -y docker.io docker-compose
+sudo systemctl enable docker
+sudo systemctl start docker
+```
 
 ---
 
-## 🤖 AI Integration
-To enable AI-assisted SEO and content generation:
-1. Obtain an API Key from [Google AI Studio](https://aistudio.google.com/).
-2. Add it to your environment variables or the `.env` file as `API_KEY`.
-3. The "Suggest SEO" buttons in the Studio will automatically activate.
+### ▶ Run SanjanaLite
+
+```bash
+git clone https://github.com/Raktim94/sanjanalt.git
+cd sanjanalt
+sudo docker compose up -d --build
+```
+
+Access:
+
+```
+http://localhost
+```
 
 ---
 
-## 📝 Maintenance
-To reset the entire instance and start fresh, navigate to **Settings** in the Admin Panel and select **"Force Database Cleanup"**. This will purge all local content and restart the Setup Wizard.
+## 🔐 Security Model
+
+* `/admin` protected by local cryptographic hash
+* No cookies used
+* No server‑side sessions
+* No database
+* Hash‑based routing prevents CSRF
+
+---
+
+## 🧹 Reset & Maintenance
+
+To fully reset the CMS:
+
+1. Go to **Admin → Settings**
+2. Click **Force Database Cleanup**
+3. Reload page
+
+This removes all content and admin credentials.
+
+---
+
+## 📁 Project Structure
+
+```
+sanjanalt/
+├── src/
+│   ├── admin/
+│   ├── blocks/
+│   ├── components/
+│   └── core/
+├── public/
+├── dist/          # production build
+├── docker-compose.yml
+├── nginx.conf
+└── README.md
+```
+
+---
+
+## 📜 License
+
+MIT License
+
+---
+
+## 👤 Author
+
+**Raktim Ranjit**
+Minimal systems. Maximum control.
+
+---
+
+## ⭐ Status
+
+Early‑stage Studio Edition (v0.1)
+
+Contributions, forks, and audits are welcome.
