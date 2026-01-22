@@ -1,0 +1,29 @@
+
+version: '3.8'
+
+services:
+  sanjanalite:
+    build: .
+    container_name: sanjanalite_studio
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  main: sanjanalite
+  description:
+    en_us: "SanjanaLite: The minimalist, high-fidelity micro-CMS for professional creators."
+  tagline:
+    en_us: "Pure Intent. Pixel Perfection."
+  developer: "Sanjana"
+  author: "Sanjana"
+  icon: "https://cdn-icons-png.flaticon.com/512/1162/1162456.png"
+  port_map: "8080"

@@ -1,0 +1,7 @@
+{
+  "name": "SanjanaLite",
+  "description": "A high-fidelity React-based Micro-CMS designed for minimalist web production with premium aesthetics.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
