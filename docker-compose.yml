@@ -6,7 +6,7 @@ services:
     build: .
     container_name: sanjanalite_studio
     ports:
-      - "8080:80"
+      - "2512:80"
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -26,4 +26,4 @@ x-casaos:
   developer: "Sanjana"
   author: "Sanjana"
   icon: "https://cdn-icons-png.flaticon.com/512/1162/1162456.png"
-  port_map: "8080"
+  port_map: "2512"
