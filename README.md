@@ -72,8 +72,8 @@ npm -v
 ### 📥 Clone Repository
 
 ```bash
-git clone https://github.com/Raktim94/sanjanalt.git
-cd sanjanalt
+git clone https://github.com/Raktim94/SanjanaLite.git
+cd SanjanaLite
 ```
 
 ---
