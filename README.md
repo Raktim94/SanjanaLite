@@ -31,7 +31,7 @@ This project is designed to run **anywhere** — bare metal Linux, LXC container
 ## 📦 Repository
 
 ```
-https://github.com/Raktim94/sanjanalt.git
+https://github.com/Raktim94/SanjanaLite.git
 ```
 
 ---
